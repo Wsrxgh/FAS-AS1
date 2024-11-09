@@ -1,0 +1,163 @@
+{
+  "title": "WildFire Monitor Scheme",
+  "description": "All monitorable values within the WildFire exemplar",
+  "type": "object",
+  "properties": {
+    "currentStep": {
+      "description": "The current simulation timestep",
+      "type": "integer",
+      "minimum": 0
+    },
+    "constants": {
+      "description": "Constant values which can only be modified between runs.",
+      "type": "object",
+      "properties": {
+        "fixedWind": {
+          "description": "Whether single-direction wind is enabled. False = multi-direction (diagonal) wind.",
+          "type": "boolean"
+        },
+        "activate_smoke": {
+          "description": "Whether smoke is enabled",
+          "type": "boolean"
+        },
+        "activate_wind": {
+          "description": "Whether wind is enabled",
+          "type": "boolean"
+        },
+        "windDirection":{
+          "description": "The direction of single-direction wind",
+          "type": "string",
+          "enum": ["north", "south", "east", "west"]
+        },
+        "firstDirection":{
+          "description": "The first direction of two-direction wind",
+          "type": "string",
+          "enum": ["north", "south", "east", "west"]
+        },
+        "secondDirection":{
+          "description": "The second direction of two-direction wind",
+          "type": "string",
+          "enum": ["north", "south", "east", "west"]
+        },
+        "firstDirStrength": {
+          "description": "The strength of the wind towards the first direction",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "windVelocity": {
+          "description": "The speed at which the wind is blowing",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "simulationDuration": {
+          "description": "The number of steps that the simulation will run for",
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "width": {
+          "description": "The width of the grid",
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "height": {
+          "description": "The height of the grid",
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "burningRate": {
+          "description": "The rate at which fire depletes the fuel in a cell",
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "fireSpreadSpeed": {
+          "description": "The speed at which fire spreads to neighboring cells",
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "fuelUpperLimit": {
+          "description": "The maximum amount of fuel which can occur in a cell",
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "fuelBottomLimit": {
+          "description": "The minimum amount of fuel which can occur in a cell",
+          "type": "integer",
+          "minimum": 0
+        },
+        "densityProbability": {
+          "description": "The probability of trees occurring in a cell",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "smokePreDispellingCounter": {
+          "description": "The amount of steps before smoke begins dispelling",
+          "type": "integer",
+          "minimum": 0
+        },
+        "numUAV": {
+          "description": "The number of UAV drones",
+          "type": "integer",
+          "minimum": 0
+        },
+        "observationRadius": {
+          "description": "The radius of the area observable by each UAV drone",
+          "type": "integer",
+          "exclusiveMinimum": 0
+        },
+        "securityDistance": {
+          "description": "The radius of the security distance area between drones",
+          "type": "integer",
+          "exclusiveMinimum": 0
+        }
+      }
+    },
+    "dynamicValues": {
+      "description": "Values which change throughout a run of the exemplar",
+      "type": "object",
+      "properties": {
+        "MR1": {
+          "description": "A list of the values of the MR1 adaptation goal, one per UAV drone",
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "MR2": {
+          "description": "The value of the MR2 adaptation goal",
+          "type": "number",
+          "minimum": 0
+        },
+        "uavDetails": {
+          "description": "A list of the relevant details of each UAV drone",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "description": "The relevant details of one UAV drone",
+            "properties": {
+              "id": {
+                "description": "The unique ID of the UAV drone agent",
+                "type": "integer"
+              },
+              "x": {
+                "description": "The X coordinate of the drone",
+                "type": "integer"
+              },
+              "y": {
+                "description": "The Y coordinate of the drone",
+                "type": "integer"
+              },
+              "direction": {
+                "description": "The direction that the drone is heading",
+                "type": "integer",
+                "enum": [0, 1, 2, 3]
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

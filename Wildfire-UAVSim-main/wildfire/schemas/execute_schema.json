@@ -1,0 +1,26 @@
+{
+  "title": "WildFire Execute Scheme",
+  "description": "The values which can be changed at runtime in the WildFire exemplar",
+  "type": "object",
+  "properties": {
+    "uavDetails": {
+      "description": "A list of the relevant details of all UAV drones",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "The relevant details of one UAV drone",
+        "properties": {
+          "id": {
+            "description": "The unique ID of the UAV drone agent",
+            "type": "integer"
+          },
+          "direction": {
+            "description": "The direction that the drone is heading",
+            "type": "string",
+            "enum": ["left", "right", "up", "down"]
+          }
+        }
+      }
+    }
+  }
+}

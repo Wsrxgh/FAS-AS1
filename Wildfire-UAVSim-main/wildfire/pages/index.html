@@ -1,0 +1,57 @@
+<html>
+    <head>
+        <title>WildFire REST API</title>
+        <style>
+            body {
+                font-family: sans-serif;
+                color:white;
+                background-color: #191919;
+            }
+
+            a {
+                color: #eb4d3b;
+            }
+
+            div.containerbox {
+                padding: 2em;
+                border-radius: 1em;
+                background-color: #212121;
+            }
+
+            div.codestyle {
+                font-size: 110%;
+                display: inline-block;
+                color: #eb4d3b;
+                font-weight: bold;
+                font-family: monospace;
+                text-decoration: none;
+                background-color: #292927;
+                border-radius: 0.25em;
+                padding: 0.1em 0.3em 0.1em 0.3em;
+            }
+
+            li {
+                margin: 0.3em 0;
+        </style>
+    </head>
+    <body>
+        <div class="containerbox">
+            <h1>Welcome!</h1>
+            <p>
+                You have found the REST API for the WildFire Exemplar. For more information, see the <a href="TODO">README</a> on the <a href="TODO">GitHub page</a>.
+            </p>
+            <h2>Monitoring & Executing</h2>
+            <ul>
+                <li>You can monitor all current constants and values by <div class="codestyle">GET</div>-ing <a href="/monitor"><div class="codestyle">/monitor</div></a>.</li>
+                <li>You can get the current adaptation option values <div  class="codestyle">GET</div>-ing <a href="/adaptation_options"><div class="codestyle">/adaptation_options</div></a>.</li>
+                <li>You can monitor all values by <div  class="codestyle">PUT</div>-ing <a href="/execute" methods="PUT"><div class="codestyle">/execute</div></a>.</li>
+            </ul>
+            <h2>Schemas</h2>
+            <ul>
+                <li>You can see monitor schema by <div class="codestyle">GET</div>-ing <a href="/monitor_schema"><div class="codestyle">/monitor_schema</div></a>.</li>
+                <li>You can see adaptation options schema by <div class="codestyle">GET</div>-ing <a href="/adaptation_options_schema"><div class="codestyle">/adaptation_options_schema</div></a>.</li>
+                <li>You can see execute schema by <div class="codestyle">GET</div>-ing <a href="/execute_schema"><div class="codestyle">/execute_schema</div></a>.</li>
+            </ul>
+        </div>
+    </body>
+</html>
