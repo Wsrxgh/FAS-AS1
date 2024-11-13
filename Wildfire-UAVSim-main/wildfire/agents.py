@@ -221,7 +221,7 @@ class UAV(mesa.Agent):
         return can_move
 
     # Jialong Mei
-    # Coordinates conversion
+    # Coordinates conversion(called by the following two functions)
     def list_to_coordinates(self, status_list):
         coordinates = []
         for index, value in enumerate(status_list):
