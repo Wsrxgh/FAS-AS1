@@ -220,6 +220,17 @@ class UAV(mesa.Agent):
                 can_move = False
         return can_move
 
+    # Jialong Mei
+    # Coordinates conversion(called by the following two functions)
+    def list_to_coordinates(self, status_list):
+        coordinates = []
+        for index, value in enumerate(status_list):
+            if value == 1:
+                x = index // UAV_OBSERVATION_RADIUS
+                y = index % UAV_OBSERVATION_RADIUS
+                coordinates.append((x, y))
+        return coordinates
+
     # function for obtaining observed cells for the corresponding UAV
     def surrounding_states(self):
         surrounding_states = []
@@ -233,11 +244,14 @@ class UAV(mesa.Agent):
             for agent in agents:
                 if type(agent) is Fire:
                     surrounding_states.append(int(agent.is_burning() is True))
-        self.fire_states = surrounding_states
+        fire_coordinates = self.list_to_coordinates(surrounding_states)
+        self.fire_states = fire_coordinates
+        # self.fire_states = surrounding_states
         return surrounding_states
     
     def surrounding_smoke(self):
         smoke_states = []
+        counter = 0
         adjacent_cells = self.model.grid.get_neighborhood(
             self.pos, moore=self.moore, include_center=True, radius=UAV_OBSERVATION_RADIUS
         )
@@ -248,7 +262,10 @@ class UAV(mesa.Agent):
                     smoke_states.append(1)
                 else:
                     smoke_states.append(0)
-        self.smoke_states = smoke_states
+                counter += 1
+        smoke_coordinates = self.list_to_coordinates(smoke_states)
+        self.smoke_states = smoke_coordinates
+        # self.smoke_states = smoke_states
         return smoke_states
 
 

@@ -1,4 +1,4 @@
-from UPISAS.strategies.demo_strategy import DemoStrategy
+from UPISAS.strategies.baseline_strategy import BaselineSpiralStrategy
 #from UPISAS.strategies.wildfire_strategy import WildFireStrategy
 from UPISAS.exemplar import Exemplar
 from UPISAS.exemplars.wildfire_exemplar import WildFireExemplar  # 假设 WildFireExemplar 类在 wildfire_exemplar.py 文件中
@@ -13,7 +13,7 @@ if __name__ == '__main__':
     try:
 
         #strategy = WildFireStrategy(wildfire_exemplar)
-        strategy = DemoStrategy(wildfire_exemplar)
+        strategy = BaselineSpiralStrategy(wildfire_exemplar)
         strategy.get_monitor_schema()
         strategy.get_adaptation_options_schema()
         strategy.get_execute_schema()
@@ -21,7 +21,7 @@ if __name__ == '__main__':
         while True:
             input("Try to adapt WildFire?")
 
-            print("\n--- Monitoring WildFire ---")
+            print("\n--- Monitoring WildFire ---")  
             strategy.monitor(verbose=True)
 
             if strategy.analyze():
