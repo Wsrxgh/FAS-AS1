@@ -19,7 +19,7 @@ python -m UPISAS.tests.swim.test_swim_interface
 ### Run
 In a terminal, navigate to the parent folder of the project and issue:
 ```
-python run.py
+python run_.py
 ```
 
 ### Using experiment runner 
