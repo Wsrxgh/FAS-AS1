@@ -186,6 +186,7 @@ def get_uav_details(model: WildFireModel) -> tuple[list[UAV], list[dict]]:
             "direction": uav.selected_dir,
             "fireStates": uav.fire_states,
             "smokeStates": uav.smoke_states,
+            "!!Current Integrity(HP)!!": round(uav.integrity, 2),
         })
     return uavs, uav_details
 

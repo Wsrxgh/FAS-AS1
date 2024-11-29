@@ -209,6 +209,7 @@ class UAV(mesa.Agent):
         self.selected_dir = 0
         self.fire_states = [] 
         self.smoke_states = []
+        self.integrity = 1
 
     # function that checks if an UAV in a certain position (pos), has another UAV nearby. If so, it can't move,
     # otherwise it will be possible to move.
@@ -236,7 +237,7 @@ class UAV(mesa.Agent):
         surrounding_states = []
         # obtains adjacent cells s' from a concrete cell s (self.pos)
         adjacent_cells = self.model.grid.get_neighborhood(
-            self.pos, moore=self.moore, include_center=True, radius=UAV_OBSERVATION_RADIUS
+            self.pos, moore=self.moore, include_center=True, radius=3
         )
         # obtains each fire cell state, in a list (1 if its burning, 0 if it isn't)
         for cell in adjacent_cells:
@@ -245,8 +246,8 @@ class UAV(mesa.Agent):
                 if type(agent) is Fire:
                     surrounding_states.append(int(agent.is_burning() is True))
         fire_coordinates = self.list_to_coordinates(surrounding_states)
+        self.integrity -= len(fire_coordinates) * 0.01
         self.fire_states = fire_coordinates
-        # self.fire_states = surrounding_states
         return surrounding_states
     
     def surrounding_smoke(self):
@@ -265,7 +266,6 @@ class UAV(mesa.Agent):
                 counter += 1
         smoke_coordinates = self.list_to_coordinates(smoke_states)
         self.smoke_states = smoke_coordinates
-        # self.smoke_states = smoke_states
         return smoke_states
 
 
