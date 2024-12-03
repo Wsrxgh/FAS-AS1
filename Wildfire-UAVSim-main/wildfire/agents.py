@@ -235,24 +235,29 @@ class UAV(mesa.Agent):
     # function for obtaining observed cells for the corresponding UAV
     def surrounding_states(self):
         surrounding_states = []
-        # obtains adjacent cells s' from a concrete cell s (self.pos)
+        fire_coordinates = []
         adjacent_cells = self.model.grid.get_neighborhood(
             self.pos, moore=self.moore, include_center=True, radius=3
         )
-        # obtains each fire cell state, in a list (1 if its burning, 0 if it isn't)
         for cell in adjacent_cells:
             agents = self.model.grid.get_cell_list_contents([cell])
             for agent in agents:
-                if type(agent) is Fire:
-                    surrounding_states.append(int(agent.is_burning() is True))
-        fire_coordinates = self.list_to_coordinates(surrounding_states)
+                if isinstance(agent, Fire) and agent.is_burning():
+                    surrounding_states.append(1)
+                    fire_coordinates.append(cell)
+                else:
+                    surrounding_states.append(0)
+
         self.integrity -= len(fire_coordinates) * 0.01
+
         self.fire_states = fire_coordinates
+
         return surrounding_states
+
     
     def surrounding_smoke(self):
         smoke_states = []
-        counter = 0
+        smoke_coordinates = []
         adjacent_cells = self.model.grid.get_neighborhood(
             self.pos, moore=self.moore, include_center=True, radius=UAV_OBSERVATION_RADIUS
         )
@@ -261,11 +266,12 @@ class UAV(mesa.Agent):
             for agent in agents:
                 if isinstance(agent, Fire) and agent.smoke.is_smoke_active():
                     smoke_states.append(1)
+                    smoke_coordinates.append(cell)
                 else:
                     smoke_states.append(0)
-                counter += 1
-        smoke_coordinates = self.list_to_coordinates(smoke_states)
+
         self.smoke_states = smoke_coordinates
+
         return smoke_states
 
 
