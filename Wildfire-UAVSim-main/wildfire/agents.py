@@ -235,24 +235,39 @@ class UAV(mesa.Agent):
     # function for obtaining observed cells for the corresponding UAV
     def surrounding_states(self):
         surrounding_states = []
+        # obtains adjacent cells s' from a concrete cell s (self.pos)
+        adjacent_cells = self.model.grid.get_neighborhood(
+            self.pos, moore=self.moore, include_center=True, radius=UAV_OBSERVATION_RADIUS
+        )
+        # obtains each fire cell state, in a list (1 if its burning, 0 if it isn't)
+        for cell in adjacent_cells:
+            agents = self.model.grid.get_cell_list_contents([cell])
+            for agent in agents:
+                if type(agent) is Fire:
+                    surrounding_states.append(int(agent.is_burning() is True))
+        return surrounding_states
+
+    # new fire detection function  --Jialong
+    def surrounding_fire(self):
+        surrounding_fire = []
         fire_coordinates = []
         adjacent_cells = self.model.grid.get_neighborhood(
-            self.pos, moore=self.moore, include_center=True, radius=3
+            self.pos, moore=self.moore, include_center=True, radius=2
         )
         for cell in adjacent_cells:
             agents = self.model.grid.get_cell_list_contents([cell])
             for agent in agents:
                 if isinstance(agent, Fire) and agent.is_burning():
-                    surrounding_states.append(1)
+                    surrounding_fire.append(1)
                     fire_coordinates.append(cell)
                 else:
-                    surrounding_states.append(0)
+                    surrounding_fire.append(0)
 
         self.integrity -= len(fire_coordinates) * 0.01
 
         self.fire_states = fire_coordinates
 
-        return surrounding_states
+        return surrounding_fire
 
     
     def surrounding_smoke(self):
@@ -277,10 +292,10 @@ class UAV(mesa.Agent):
 
     # function for moving UAV over the grid area
     def move(self):
-        # vectors for moving to different positions, based on 4 directions = [0, 1, 2, 3] = [right, down, left, up].
+        # vectors for moving to different positions, based on 4 directions = [0, 1, 2, 3, 4] = [right, down, left, up, stay].
         # For example, if direction 1 is chosen, then the UAV moves 0 cells in x-axis, and -1 cell in y-axis
-        move_x = [1, 0, -1, 0]
-        move_y = [0, -1, 0, 1]
+        move_x = [1, 0, -1, 0, 0]
+        move_y = [0, -1, 0, 1, 0]
         moved = False
 
         # it calculates the position the corresponding UAV will move to
@@ -297,4 +312,5 @@ class UAV(mesa.Agent):
     # (as it can be seen, in this case UAVs don't need to update anything in step() method, so it isn't overwritten).
     def advance(self):
         self.surrounding_smoke()
+        self.surrounding_fire()
         self.move()
