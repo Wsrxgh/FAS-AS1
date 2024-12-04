@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 
 @dataclass
@@ -12,3 +12,6 @@ class Knowledge:
     monitor_schema: dict
     execute_schema: dict
     adaptation_options_schema: dict
+
+    fresh_data: dict 
+        
