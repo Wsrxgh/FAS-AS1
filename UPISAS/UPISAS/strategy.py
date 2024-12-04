@@ -14,18 +14,20 @@ class Strategy(ABC):
 
     def __init__(self, exemplar):
         self.exemplar = exemplar
-        self.knowledge = Knowledge(dict(), dict(), dict(), dict(), dict(), dict(), dict())
+        self.knowledge = Knowledge(dict(), dict(), dict(), dict(), dict(), dict(), dict(), dict())
 
     def ping(self):
         ping_res = self._perform_get_request(self.exemplar.base_endpoint)
         logging.info(f"ping result: {ping_res}")
-
+    
     def monitor(self, endpoint_suffix="monitor", with_validation=True, verbose=False):
         fresh_data = self._perform_get_request(endpoint_suffix)
         if(verbose): print("[Monitor]\tgot fresh_data: " + str(fresh_data))
+        
         if with_validation:
             if(not self.knowledge.monitor_schema): self.get_monitor_schema()
             #validate_schema(fresh_data, self.knowledge.monitor_schema)
+        self.knowledge.fresh_data = fresh_data
         data = self.knowledge.monitored_data
         for key in list(fresh_data.keys()):
             if key not in data:
@@ -33,6 +35,25 @@ class Strategy(ABC):
             data[key].append(fresh_data[key])
         if(verbose): print("[Knowledge]\tdata monitored so far: " + str(self.knowledge.monitored_data))
         return True
+        
+    """ 
+    def monitor(self, endpoint_suffix="monitor", with_validation=True, verbose=False):
+    
+        fresh_data = self._perform_get_request(endpoint_suffix)
+        if verbose:
+            print("[Monitor]\tgot fresh_data: " + str(fresh_data))
+
+        if with_validation:
+            if not self.knowledge.monitor_schema:
+                self.get_monitor_schema()
+            # validate_schema(fresh_data, self.knowledge.monitor_schema)
+
+        self.knowledge.monitored_data = fresh_data
+
+        if verbose:
+            print("[Knowledge]\tlatest monitored data: " + str(self.knowledge.monitored_data))
+        return True
+    """ 
 
     def execute(self, adaptation=None, endpoint_suffix="execute", with_validation=True):
         if(not adaptation): adaptation= self.knowledge.plan_data
