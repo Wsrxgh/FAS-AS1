@@ -82,9 +82,9 @@ python run_.py
 ### Running the Experiment Runner
 
 > **Note:**  
-> The Experiment Runner does not work on native Windows systems. However, since UPISAS relies on Docker, you should already have the Windows Subsystem for Linux (WSL) installed. Use WSL to run Python for both UPISAS and the Experiment Runner. Restart the installation in WSL, then follow these steps:
+> The Experiment Runner does not work on native Windows systems. However, since UPISAS relies on Docker, you should already have the Windows Subsystem for Linux (WSL) installed. Use WSL to run Python for both UPISAS and the Experiment Runner. Restart the UPISAS installation in WSL, then follow these steps:
 
-1. Navigate to the `experiment-runner` folder.
+1. Navigate to the `UPISAS/experiment-runner` folder.
 2. Install dependencies:
    ```bash
    pip install -r requirements.txt
