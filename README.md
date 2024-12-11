@@ -28,11 +28,11 @@ The project runs inside a Docker container. You can interact with it via the RES
 1. Navigate to the `Wildfire-UAVSim-main` folder (where the `Makefile` is located) using a terminal.
 2. Execute the following command to start the container:
    ```bash
-   make run
-   ```
-   > **Note:** For the first-time setup, replace `make run` with:
-   ```bash
    make runFirst
+   ```
+   > **Note:** If not first-time, and container is already created then execute:
+   ```bash
+   make run
    ```
 
 To stop the container, press `Ctrl+C` in the terminal. If the container does not terminate, run:
@@ -53,14 +53,16 @@ make clean
 
 **Next Steps:**  
 After starting the container with `make run` or `make runFirst`, access the web interface at [http://127.0.0.1:8521/](http://127.0.0.1:8521/) and click "Start" to begin the experiment. 
+### Note: Click "Start" before trying to play with UPISAS or Experiment runner
 
 ---
 
-### Running UPISAS and Baseline
+### Running UPISAS
 
 #### Prerequisites
 
 - Tested with Python 3.9.12. Compatible with Python 3.8 or higher.
+- ## Widlefire should be runing in the background throughout this process.
 
 #### Installation
 
@@ -79,7 +81,9 @@ python run_.py
 
 ---
 
-### Running the Experiment Runner
+### Running the Experiment Runner (Execute the baseline)
+
+### Still, Widlefire should be runing in the background throughout this process.
 
 > **Note:**  
 > The Experiment Runner does not work on native Windows systems. However, since UPISAS relies on Docker, you should already have the Windows Subsystem for Linux (WSL) installed. Use WSL to run Python for both UPISAS and the Experiment Runner. Restart the UPISAS installation in WSL, then follow these steps:
@@ -89,13 +93,18 @@ python run_.py
    ```bash
    pip install -r requirements.txt
    ```
-3. Return to the parent folder and run:
+3. Return to the parent folder with:
+4. ```bash
+   cd ..
+   ```
+   then execute:
+   
    ```bash
    sh run_.sh
    ```
-4. You can check the experiment results in the folder `UPISAS/UPISAS/experiment_runner_configs/experiments/wildfire_experiment`.
+6. You can check the experiment results in the folder `UPISAS/UPISAS/experiment_runner_configs/experiments/wildfire_experiment`.
 ---
 
-### Important Notes
+# Important Notes
 
-- After completing an experiment, delete the folder `UPISAS/UPISAS/experiment_runner_configs/experiments/wildfire_experiment` before starting a new experiment. This ensures proper configuration for the next run.
+- ### After completing an experiment, delete the folder `UPISAS/UPISAS/experiment_runner_configs/experiments/wildfire_experiment` before starting a new experiment. This ensures proper configuration for the next run.
