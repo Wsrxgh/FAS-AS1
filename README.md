@@ -93,7 +93,7 @@ python run_.py
    ```bash
    sh run_.sh
    ```
-
+4. You can check the experiment results in the folder `experiment_runner_configs/experiments/wildfire_experiment`.
 ---
 
 ### Important Notes
