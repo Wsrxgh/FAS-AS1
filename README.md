@@ -52,7 +52,7 @@ make clean
   _Note: The terminal output might display `172.17.0.2:55555` as the API address. This is the container's internal address and can be ignored._
 
 **Next Steps:**  
-After starting the container with `make run` or `make runFirst`, access the web interface at [http://127.0.0.1:8521/](http://127.0.0.1:8521/) and click "Start" to begin the experiment.
+After starting the container with `make run` or `make runFirst`, access the web interface at [http://127.0.0.1:8521/](http://127.0.0.1:8521/) and click "Start" to begin the experiment. 
 
 ---
 
@@ -93,9 +93,9 @@ python run_.py
    ```bash
    sh run_.sh
    ```
-4. You can check the experiment results in the folder `experiment_runner_configs/experiments/wildfire_experiment`.
+4. You can check the experiment results in the folder `UPISAS/UPISAS/experiment_runner_configs/experiments/wildfire_experiment`.
 ---
 
 ### Important Notes
 
-- After completing an experiment, delete the folder `experiment_runner_configs/experiments/wildfire_experiment` before starting a new experiment. This ensures proper configuration for the next run.
+- After completing an experiment, delete the folder `UPISAS/UPISAS/experiment_runner_configs/experiments/wildfire_experiment` before starting a new experiment. This ensures proper configuration for the next run.
