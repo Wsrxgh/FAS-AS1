@@ -21,7 +21,7 @@ Installing Docker is necessary to build and run the Docker image for this projec
 
 ---
 
-### Execution
+### Wildfire Execution
 
 The project runs inside a Docker container. You can interact with it via the REST API or the web interface.
 
