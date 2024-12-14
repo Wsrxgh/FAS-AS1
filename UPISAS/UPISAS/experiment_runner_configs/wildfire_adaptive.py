@@ -5,6 +5,7 @@ from ConfigValidator.Config.Models.RunnerContext import RunnerContext
 from ConfigValidator.Config.Models.OperationType import OperationType
 from ExtendedTyping.Typing import SupportsStr
 from ProgressManager.Output.OutputProcedure import OutputProcedure as output
+from datetime import datetime
 
 from typing import Dict, Any, Optional
 from pathlib import Path
@@ -20,7 +21,7 @@ class RunnerConfig:
 
     # ================================ USER SPECIFIC CONFIG ================================
     """The name of the experiment."""
-    name: str = "wildfire_experiment"
+    name = "wildfire_experiment_" + datetime.now().strftime("%Y%m%d_%H%M%S")
 
     """The path to store results from this experiment."""
     results_output_path: Path = ROOT_DIR / 'experiments'
