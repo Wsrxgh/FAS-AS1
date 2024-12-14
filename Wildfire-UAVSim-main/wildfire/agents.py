@@ -209,7 +209,7 @@ class UAV(mesa.Agent):
         self.selected_dir = 0
         self.fire_states = [] 
         self.smoke_states = []
-        self.integrity = 1
+        self.integrity = 10
 
     # function that checks if an UAV in a certain position (pos), has another UAV nearby. If so, it can't move,
     # otherwise it will be possible to move.
