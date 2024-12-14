@@ -48,6 +48,7 @@ class RunnerConfig:
             (RunnerEvents.AFTER_EXPERIMENT, self.after_experiment)
         ])
         self.run_table_model = None  # Initialized later
+        self.stepwise_data = []  
         output.console_log("WildFire config loaded")
 
     def create_run_table_model(self) -> RunTableModel:
@@ -55,7 +56,7 @@ class RunnerConfig:
         self.run_table_model = RunTableModel(
             factors=[],
             exclude_variations=[],
-            data_columns=['MR1_total', 'MR2_max']  # Include MR1_total and MR2_max
+            data_columns=['MR1_total', 'MR2_max', 'stepwise_data']  
         )
         return self.run_table_model
 
@@ -84,6 +85,8 @@ class RunnerConfig:
 
         while time_slept < 90:
             self.strategy.monitor(verbose=True)
+            step_data = self._record_step_data()  
+            self.stepwise_data.append(step_data)  
             if self.strategy.analyze():
                 if self.strategy.plan():
                     self.strategy.execute()
@@ -100,8 +103,7 @@ class RunnerConfig:
 
     def populate_run_data(self, context: RunnerContext) -> Optional[Dict[str, SupportsStr]]:
         """
-        Process monitored_data and calculate MR1_total and MR2_max.
-        This method is called only once after all executions are completed.
+        Process monitored_data and calculate MR1_total, MR2_max, and stepwise_data.
         """
         output.console_log("Config.populate_run_data() called!")
 
@@ -109,11 +111,10 @@ class RunnerConfig:
         MR1_total = 0
         MR2_max = 0
 
-        # Ensure dynamicValues is valid
         dynamic_values = monitored_data.get("dynamicValues", [])
         if not isinstance(dynamic_values, list):
             output.console_log("Invalid dynamicValues format!")
-            return {"MR1_total": MR1_total, "MR2_max": MR2_max}
+            return {"MR1_total": MR1_total, "MR2_max": MR2_max, "stepwise_data": self.stepwise_data}
 
         # Process each item in dynamicValues
         for data in dynamic_values:
@@ -136,9 +137,31 @@ class RunnerConfig:
             else:
                 output.console_log(f"Invalid MR2 format: {MR2}")
 
-        # Log final results
         output.console_log(f"Final MR1_total: {MR1_total}, MR2_max: {MR2_max}")
-        return {"MR1_total": MR1_total, "MR2_max": MR2_max}
+        return {"MR1_total": MR1_total, "MR2_max": MR2_max, "stepwise_data": self.stepwise_data}
+
+    def _record_step_data(self) -> Dict[str, Any]:
+        """
+        Record MR1, MR2, and Integrity(MR3) for the current step.
+        """
+        fresh_data = self.strategy.knowledge.fresh_data
+        dynamic_values = fresh_data.get("dynamicValues", {})
+
+        MR1 = dynamic_values.get("MR1", [])
+        MR2 = dynamic_values.get("MR2", 0)
+        Integrity = [
+            uav.get("Integrity(MR3)", None)
+            for uav in dynamic_values.get("uavDetails", [])
+        ]
+
+        step_data = {
+            "MR1": MR1,
+            "MR2": MR2,
+            "Integrity": Integrity
+        }
+
+        output.console_log(f"Recorded step data: {step_data}")
+        return step_data
 
     def after_experiment(self) -> None:
         """Log experiment completion."""
